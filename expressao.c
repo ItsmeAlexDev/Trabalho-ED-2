@@ -82,7 +82,7 @@ char *getFormaInFixa(char *Str)
             }
 
         char *temp = pop(&s);
-        char *result;
+        char *result = strdup(temp);
         
         sscanf(temp, "(%[^\n]", result);
         result[strlen(result) - 1] = '\0';
