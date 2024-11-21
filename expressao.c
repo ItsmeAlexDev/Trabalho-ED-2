@@ -33,6 +33,7 @@ float performOperation(float a, float b, char op)
                 case '*': return a * b;
                 case '/': return a / b;
                 case '^': return pow(a, b);
+                case '**': return pow(a, b);
                 default: return 0;
             }
     }
@@ -40,9 +41,11 @@ float performOperation(float a, float b, char op)
 float performFunction(float a, const char *func)
     {
         if (strcmp(func, "raiz") == 0) return sqrt(a);
+        if (strcmp(func, "root") == 0) return sqrt(a);
         if (strcmp(func, "sen") == 0) return sin(a * M_PI / 180);
         if (strcmp(func, "cos") == 0) return cos(a * M_PI / 180);
         if (strcmp(func, "tg") == 0) return tan(a * M_PI / 180);
+        if (strcmp(func, "tan") == 0) return tan(a * M_PI / 180);        
         if (strcmp(func, "log") == 0) return log10(a);
         return 0;
     }
@@ -65,7 +68,14 @@ char *getFormaInFixa(char *Str)
                             {
                                 char *b = pop(&s);
                                 char *a = pop(&s);
-                                sprintf(buffer, "(%s %s %s)", a, token, b);
+                                if (a[0] != '(' && b[0]!='(')
+                                    {
+                                        sprintf(buffer, "(%s %s %s)", a, token, b);
+                                    }
+                                else
+                                    {
+                                        sprintf(buffer, "%s %s %s", a, token, b);
+                                    }
                                 push(&s, buffer);
                                 free(a);
                                 free(b);
@@ -73,7 +83,14 @@ char *getFormaInFixa(char *Str)
                         else
                             {
                                 char *a = pop(&s);
-                                sprintf(buffer, "%s(%s)", token, a);
+                                if (a[0] != '(')
+                                    {
+                                        sprintf(buffer, "%s(%s)", token, a);
+                                    }
+                                else
+                                    {
+                                        sprintf(buffer, "%s%s", token, a);
+                                    }
                                 push(&s, buffer);
                                 free(a);
                             }
@@ -81,11 +98,7 @@ char *getFormaInFixa(char *Str)
                 token = strtok(NULL, " ");
             }
 
-        char *temp = pop(&s);
-        char *result = strdup(temp);
-        
-        sscanf(temp, "(%[^\n]", result);
-        result[strlen(result) - 1] = '\0';
+        char *result = pop(&s);
 
         return result;
     }

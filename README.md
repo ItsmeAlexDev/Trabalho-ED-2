@@ -11,5 +11,7 @@
     echo [expressão matemática] > teste.txt
     gcc main.c -o output
     output
+###### se atente para trocar todo "^", na expressão matemática, por "^^" ou "**".
 ### depois de ter compilado o código pelo menos uma vez, pode ser usado o seguinte comando:
     echo [expressão matemática] > teste.txt & output
+###### se atente para trocar todo "^", na expressão matemática, por "^^" ou "**".
