@@ -1,5 +1,5 @@
 # Trabalho de Estrutura de Dados N2
-    Sistema que simula uma calculadora pósfixada (RPS).
+    Sistema que simula uma calculadora pósfixada (RPN).
 
 ## Observações:
     1 - O sistema mostra o output no terminal;

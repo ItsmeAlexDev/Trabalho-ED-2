@@ -33,7 +33,6 @@ float performOperation(float a, float b, char op)
                 case '*': return a * b;
                 case '/': return a / b;
                 case '^': return pow(a, b);
-                case '**': return pow(a, b);
                 default: return 0;
             }
     }
@@ -58,6 +57,8 @@ char *getFormaInFixa(char *Str)
 
         while (token != NULL) 
             {
+                if (strcmp(token, "**") == 0) token = "^";
+
                 if (isdigit(token[0]) || (token[0] == '-' && isdigit(token[1])))
                     {
                         push(&s, token);
@@ -111,6 +112,8 @@ float getValor(char *Str)
 
         while (token != NULL)
             {
+                if (strcmp(token, "**") == 0) token = "^";
+                
                 if (isdigit(token[0]) || (token[0] == '-' && isdigit(token[1])))
                     {
                         push(&s, token);
