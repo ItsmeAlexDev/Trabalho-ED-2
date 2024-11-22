@@ -3,8 +3,10 @@
 #include <string.h>
 #include <math.h>
 #include <ctype.h>
+#include <float.h>
 #include "expressao.h"
 
+#define ERROR_VALUE FLT_MAX
 #define MAX_STACK 512
 #define M_PI 3.14159265358979323846
 
@@ -31,22 +33,75 @@ float performOperation(float a, float b, char op)
                 case '+': return a + b;
                 case '-': return a - b;
                 case '*': return a * b;
-                case '/': return a / b;
-                case '^': return pow(a, b);
-                default: return 0;
+                case '/': 
+                    if (b == 0) 
+                        {
+                            printf("ERROR: Divisao por zero.\n\n");
+                            return ERROR_VALUE;
+                        }
+                    else
+                        {
+                            return a / b;
+                        }
+                case '^':
+                    if (a == 0 && b <= 0)
+                        {
+                            printf("ERROR: exponenciacao invalida.\n\n");
+                            return ERROR_VALUE;
+                        }
+                    else
+                        {
+                            return pow(a, b);
+                        }
+                default:
+                    printf("ERROR: Operador desconhecido '%c'.\n\n", op);
+                    return ERROR_VALUE;
             }
     }
 
 float performFunction(float a, const char *func)
     {
-        if (strcmp(func, "raiz") == 0) return sqrt(a);
-        if (strcmp(func, "root") == 0) return sqrt(a);
+        if (strcmp(func, "raiz") == 0 || strcmp(func, "root") == 0) 
+            {
+                if (a < 0) 
+                    {
+                        printf("ERROR: Raiz de numero negativo.\n\n");
+                        return ERROR_VALUE;
+                    }
+                else
+                    {
+                        return sqrt(a);
+                    }
+            }
         if (strcmp(func, "sen") == 0) return sin(a * M_PI / 180);
         if (strcmp(func, "cos") == 0) return cos(a * M_PI / 180);
-        if (strcmp(func, "tg") == 0) return tan(a * M_PI / 180);
-        if (strcmp(func, "tan") == 0) return tan(a * M_PI / 180);        
-        if (strcmp(func, "log") == 0) return log10(a);
-        return 0;
+        if (strcmp(func, "tg") == 0 || strcmp(func, "tan") == 0) 
+            {
+                if (fmod(a, 180) == 90) 
+                    {
+                        printf("ERROR: Tangente indefinida em %f graus.\n\n", a);
+                        return ERROR_VALUE;
+                    }
+                else
+                    {
+                        return tan(a * M_PI / 180);
+                    }
+            }
+        if (strcmp(func, "log") == 0) 
+            {
+                if (a <= 0) 
+                    {
+                        printf("ERROR: Logaritmo indefinido para valores nao positivos.\n\n");
+                        return ERROR_VALUE;
+                    }
+                else
+                    {
+                        return log10(a);
+                    }
+            }
+        
+        printf("ERROR: Função desconhecida. '%s'.\n\n", func);
+        return ERROR_VALUE;
     }
 
 char *getFormaInFixa(char *Str)
