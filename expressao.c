@@ -100,7 +100,7 @@ float performFunction(float a, const char *func)
                     }
             }
         
-        printf("ERROR: Função desconhecida. '%s'.\n\n", func);
+        printf("ERROR: Funcao desconhecida. '%s'.\n\n", func);
         return ERROR_VALUE;
     }
 
